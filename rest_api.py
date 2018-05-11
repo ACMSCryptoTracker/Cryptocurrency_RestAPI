@@ -166,6 +166,7 @@ def registeration():
 		json_object['Message']="This email is already registered"
 		return jsonify(json_object),404
 """
+"""
 @app.route("/compareGraphs",methods=['GET','POST'])
 def LineGraph():
     json_object={}
@@ -219,8 +220,8 @@ def IndividualGraph():
     
         #return "Invalid Paramters"
               	
-			
+"""			
 if (__name__ == "__main__"):
 	app.run(debug=True,use_reloader=False)
 	conn.close()
-"""
+
