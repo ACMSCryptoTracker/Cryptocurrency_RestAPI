@@ -41,7 +41,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 def home():
 	return "Home Page"
-
+"""
 @app.route('/getCoinData',methods=['GET','POST'])
 def getCoinData():
       curr_list=[]
@@ -223,3 +223,4 @@ def IndividualGraph():
 if (__name__ == "__main__"):
 	app.run(debug=True,use_reloader=False)
 	conn.close()
+"""
