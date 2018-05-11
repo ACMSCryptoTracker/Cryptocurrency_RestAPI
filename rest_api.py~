@@ -44,8 +44,6 @@ def home():
 
 @app.route('/getCoinData',methods=['GET','POST'])
 def getCoinData():
-      curr_list=[]
-      json_object={}
       data=json.loads(request.data)
       coin=data['coin']
       selectQuery="select currency from currency_current"	
