@@ -71,30 +71,29 @@ def getCoinData():
 def currentData():
 	curr_list=[]
 	json_object={}
-	selectQuery="select currency from currency_current"	
+	selectQuery="select currency from currency_current"
         curr.execute(selectQuery)
-	conn.commit()
-	if curr.rowcount == 0:
-		json_object['Success']=0
-		json_object['message']="Error"
-	else:
-		result=curr.fetchall()
-		for r in result :
-			curr_list.append(r[0])
-		#return jsonify(curr_list)
-		json_object['Success']=1
-		json_object['message']="Successfully Fetched Data"
-		json_object['data']=curr_list
-	return jsonify(json_object)
-
+        conn.commit()
+        if curr.rowcount == 0:
+                json_object['Success']=0
+                json_object['message']="Error"
+        else:
+                result=curr.fetchall()
+                for r in result :
+                     curr_list.append(r[0])
+                #return jsonify(curr_list)
+                json_object['Success']=1
+                json_object['message']="Successfully Fetched Data"
+                json_object['data']=curr_list
+        return jsonify(json_object)
 @app.route('/setAlert', methods=['GET','POST'])
 def setAlert():
         data=json.loads(request.data)
         #print(data);
-	userid=data['userid']
-	alert_type=data['type']
-	currency_sym=data['currency_symbol']
-	conversion_sym=data['conversion_symbol']
+        userid=data['userid']
+        alert_type=data['type']
+        currency_sym=data['currency_symbol']
+        conversion_sym=data['conversion_symbol']
 	insertQuery=""
         json_object={}
 	if(alert_type == 'THRESHOLD_ALERT'):
