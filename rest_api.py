@@ -72,7 +72,7 @@ def currentData():
 	curr_list=[]
 	json_object={}
 	selectQuery="select currency from currency_current"	
-  	curr.execute(selectQuery)
+        curr.execute(selectQuery)
 	conn.commit()
 	if curr.rowcount == 0:
 		json_object['Success']=0
