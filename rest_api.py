@@ -63,8 +63,7 @@ def getCoinData():
                         json_object['Success']=1
                         json_object['message']="Successfully Fetched Data"
                         json_object['data']=c
-      return jsonify(json_object)
-"""
+      return jsonify(json_object)	
 @app.route('/currentData',methods=['GET','POST'])
 def currentData():
 	curr_list=[]
@@ -84,6 +83,7 @@ def currentData():
                 json_object['message']="Successfully Fetched Data"
                 json_object['data']=curr_list
         return jsonify(json_object)
+"""
 @app.route('/setAlert', methods=['GET','POST'])
 def setAlert():
         data=json.loads(request.data)
