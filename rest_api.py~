@@ -64,14 +64,11 @@ def getCoinData():
                         json_object['message']="Successfully Fetched Data"
                         json_object['data']=c
       return jsonify(json_object)
-
-
-
 @app.route('/currentData',methods=['GET','POST'])
 def currentData():
 	curr_list=[]
 	json_object={}
-	selectQuery="select currency from currency_current"
+        selectQuery="select currency from currency_current"
         curr.execute(selectQuery)
         conn.commit()
         if curr.rowcount == 0:
