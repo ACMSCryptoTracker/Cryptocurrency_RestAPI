@@ -63,11 +63,11 @@ def getCoinData():
                         json_object['Success']=1
                         json_object['message']="Successfully Fetched Data"
                         json_object['data']=c
-      return jsonify(json_object)	
+      return jsonify(json_object)
 @app.route('/currentData',methods=['GET','POST'])
 def currentData():
-	curr_list=[]
-	json_object={}
+        curr_list=[]
+        json_object={}
         selectQuery="select currency from currency_current"
         curr.execute(selectQuery)
         conn.commit()
@@ -77,7 +77,7 @@ def currentData():
         else:
                 result=curr.fetchall()
                 for r in result :
-                     curr_list.append(r[0])
+                      curr_list.append(r[0])
                 #return jsonify(curr_list)
                 json_object['Success']=1
                 json_object['message']="Successfully Fetched Data"
