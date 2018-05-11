@@ -83,7 +83,6 @@ def currentData():
                 json_object['message']="Successfully Fetched Data"
                 json_object['data']=curr_list
         return jsonify(json_object)
-"""
 @app.route('/setAlert', methods=['GET','POST'])
 def setAlert():
         data=json.loads(request.data)
@@ -119,7 +118,7 @@ def setAlert():
 	json_object['Success']=1
 	json_object['Message']="Successfully insert Data"
 	return jsonify(json_object),200
-		
+
 @app.route('/login',methods=['POST','GET'])
 def login():
         data=json.loads(request.data)
@@ -166,7 +165,7 @@ def registeration():
 		json_object['Success']=0
 		json_object['Message']="This email is already registered"
 		return jsonify(json_object),404
-
+"""
 @app.route("/compareGraphs",methods=['GET','POST'])
 def LineGraph():
     json_object={}

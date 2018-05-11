@@ -66,8 +66,8 @@ def getCoinData():
       return jsonify(json_object)
 @app.route('/currentData',methods=['GET','POST'])
 def currentData():
-	curr_list=[]
-	json_object={}
+        curr_list=[]
+        json_object={}
         selectQuery="select currency from currency_current"
         curr.execute(selectQuery)
         conn.commit()
@@ -77,13 +77,12 @@ def currentData():
         else:
                 result=curr.fetchall()
                 for r in result :
-                     curr_list.append(r[0])
+                      curr_list.append(r[0])
                 #return jsonify(curr_list)
                 json_object['Success']=1
                 json_object['message']="Successfully Fetched Data"
                 json_object['data']=curr_list
         return jsonify(json_object)
-"""
 @app.route('/setAlert', methods=['GET','POST'])
 def setAlert():
         data=json.loads(request.data)
@@ -119,7 +118,7 @@ def setAlert():
 	json_object['Success']=1
 	json_object['Message']="Successfully insert Data"
 	return jsonify(json_object),200
-		
+
 @app.route('/login',methods=['POST','GET'])
 def login():
         data=json.loads(request.data)
