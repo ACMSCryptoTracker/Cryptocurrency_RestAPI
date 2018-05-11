@@ -93,32 +93,32 @@ def setAlert():
         conversion_sym=data['conversion_symbol']
         insertQuery=""
         json_object={}
-	if(alert_type == 'THRESHOLD_ALERT'):
-		price=data['price']
-		threshold_min=data['threshold_min']
-		threshold_max=data['threshold_max']
-		insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,price,threshold_min,threshold_max) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,price,threshold_min,threshold_max)
-	elif(alert_type == 'PRICE_ALERT'):
-		price=data['price']
-		price_inc_by=data['price_inc_by']
-		price_dec_by=data['price_dec_by']
-		insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,price,price_inc_by,price_dec_by) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,price,price_inc_by,price_dec_by)
-	elif(alert_type == 'VOLUME_ALERT'):
-		volume=data['volume']
-		volume_inc_by=data['volume_inc_by']
-		volume_dec_by=data['volume_dec_by']
-		insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,volume,volume_inc_by,volume_dec_by) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,volume,volume_inc_by,volume_dec_by)
-	elif(alert_type == 'MARKETCAP_ALERT'):
-		marketcap=data['marketcap']
-		marketcap_inc_by=data['marketcap_inc_by']
-		marketcap_dec_by=data['marketcap_dec_by']
-		insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,marketcap,marketcap_inc_by,marketcap_dec_by) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,marketcap,marketcap_inc_by,marketcap_dec_by)
-	curr.execute(insertQuery)
-	conn.commit()
-	json_object['Success']=1
-	json_object['Message']="Successfully insert Data"
-	return jsonify(json_object),200
-
+        if(alert_type == 'THRESHOLD_ALERT'):
+                price=data['price']
+                threshold_min=data['threshold_min']
+                threshold_max=data['threshold_max']
+                insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,price,threshold_min,threshold_max) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,price,threshold_min,threshold_max)
+        elif(alert_type == 'PRICE_ALERT'):
+                price=data['price']
+                price_inc_by=data['price_inc_by']
+                price_dec_by=data['price_dec_by']
+                insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,price,price_inc_by,price_dec_by) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,price,price_inc_by,price_dec_by)
+        elif(alert_type == 'VOLUME_ALERT'):
+                volume=data['volume']
+                volume_inc_by=data['volume_inc_by']
+                volume_dec_by=data['volume_dec_by']
+                insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,volume,volume_inc_by,volume_dec_by) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,volume,volume_inc_by,volume_dec_by)
+        elif(alert_type == 'MARKETCAP_ALERT'):
+                marketcap=data['marketcap']
+                marketcap_inc_by=data['marketcap_inc_by']
+                marketcap_dec_by=data['marketcap_dec_by']
+                insertQuery="insert into public.alert(user_id,alert_type,coin_symbol,conversion_symbol,marketcap,marketcap_inc_by,marketcap_dec_by) values ({},'{}','{}','{}',{},{},{})".format(userid,alert_type,currency_sym,conversion_sym,marketcap,marketcap_inc_by,marketcap_dec_by)
+        curr.execute(insertQuery)
+        conn.commit()
+        json_object['Success']=1
+        json_object['Message']="Successfully insert Data"
+        return jsonify(json_object),200
+"""
 @app.route('/login',methods=['POST','GET'])
 def login():
         data=json.loads(request.data)
