@@ -118,54 +118,52 @@ def setAlert():
         json_object['Success']=1
         json_object['Message']="Successfully insert Data"
         return jsonify(json_object),200
-"""
 @app.route('/login',methods=['POST','GET'])
 def login():
         data=json.loads(request.data)
-	email=data['email']
-	password=data['password']
-	#email='urjakothari5@gmail.com'
-	#password='abcd'	
-	selectQuery="select * from public.user where email='{}'".format(email)
-	curr.execute(selectQuery)
-	json_object={}
-	if curr.rowcount == 0:
-		json_object['Success']=0
-		json_object['message']="Email is not registered"
-		return jsonify(json_object),404
-	else:
-		result=curr.fetchall()
-		if result[0][2] == password:
-			json_object['Success']=1
-			json_object['Message']="Successfully login"
-			json_object['email']=result[0][2]
-			json_object['name']=result[0][3]
-			return jsonify(json_object),200
-		else:
-			json_object['Success']=0
-			json_object['message']="Incorrect Password"
-			return jsonify(json_object),404
-
-@app.route('/registeration',methods=['POST','GET'])	
+        email=data['email']
+        password=data['password']
+        #email='urjakothari5@gmail.com'
+        #password='abcd'
+        selectQuery="select * from public.user where email='{}'".format(email)
+        curr.execute(selectQuery)
+        json_object={}
+        if curr.rowcount == 0:
+                json_object['Success']=0
+                json_object['message']="Email is not registered"
+                return jsonify(json_object),404
+        else:
+                result=curr.fetchall()
+                if result[0][2] == password:
+                        json_object['Success']=1
+                        json_object['Message']="Successfully login"
+                        json_object['email']=result[0][2]
+                        json_object['name']=result[0][3]
+                        return jsonify(json_object),200
+                else:
+                        json_object['Success']=0
+                        json_object['message']="Incorrect Password"
+                        return jsonify(json_object),404
+@app.route('/registeration',methods=['POST','GET'])
 def registeration():
         data=json.loads(request.data)
-	name=data['name']
-	email=data['email']
-	password=data['password']
-	curr.execute("select * from public.user where email='{}'".format(email))
-	json_object={}
-	if(curr.rowcount == 0): 
-		insertQuery="insert into public.user(name,email,password) values ('{}','{}','{}')".format(name,email,password)
-		curr.execute(insertQuery)
-		conn.commit()
-		json_object['Success']=1
-		json_object['Message']="Successfully insert Data"
-		return jsonify(json_object),200
-	else:
-		json_object['Success']=0
-		json_object['Message']="This email is already registered"
-		return jsonify(json_object),404
-"""
+        name=data['name']
+        email=data['email']
+        password=data['password']
+        curr.execute("select * from public.user where email='{}'".format(email))
+        json_object={}
+        if(curr.rowcount == 0):
+                insertQuery="insert into public.user(name,email,password) values ('{}','{}','{}')".format(name,email,password)
+                curr.execute(insertQuery)
+                conn.commit()
+                json_object['Success']=1
+                json_object['Message']="Successfully insert Data"
+                return jsonify(json_object),200
+        else:
+                json_object['Success']=0
+                json_object['Message']="This email is already registered"
+                return jsonify(json_object),404
+
 """
 @app.route("/compareGraphs",methods=['GET','POST'])
 def LineGraph():
