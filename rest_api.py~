@@ -52,8 +52,8 @@ def getCoinData():
       curr.execute(selectQuery)
       conn.commit()
       if curr.rowcount == 0:
-	   json_object['Success']=0
-	   json_object['message']="Error"
+           json_object['Success']=0
+           json_object['message']="Error"
       else:
 	   result=curr.fetchall()
 	   for r in result :

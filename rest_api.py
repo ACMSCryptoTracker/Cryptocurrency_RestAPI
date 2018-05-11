@@ -55,15 +55,14 @@ def getCoinData():
            json_object['Success']=0
            json_object['message']="Error"
       else:
-	   result=curr.fetchall()
-	   for r in result :
-		curr_list.append(r[0])
-		#return jsonify(curr_list)
+           result=curr.fetchall()
+           for r in result :
+                curr_list.append(r[0])
            for c in curr_list:
                 if(c['symbol'] == coin):
-	   		json_object['Success']=1
-	   		json_object['message']="Successfully Fetched Data"
-	   		json_object['data']=c
+                        json_object['Success']=1
+                        json_object['message']="Successfully Fetched Data"
+                        json_object['data']=c
       return jsonify(json_object)
 
 
