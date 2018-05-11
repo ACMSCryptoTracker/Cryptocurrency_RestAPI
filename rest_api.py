@@ -91,7 +91,7 @@ def setAlert():
         alert_type=data['type']
         currency_sym=data['currency_symbol']
         conversion_sym=data['conversion_symbol']
-	insertQuery=""
+        insertQuery=""
         json_object={}
 	if(alert_type == 'THRESHOLD_ALERT'):
 		price=data['price']
@@ -118,7 +118,7 @@ def setAlert():
 	json_object['Success']=1
 	json_object['Message']="Successfully insert Data"
 	return jsonify(json_object),200
-
+"""
 @app.route('/login',methods=['POST','GET'])
 def login():
         data=json.loads(request.data)

@@ -91,7 +91,7 @@ def setAlert():
         alert_type=data['type']
         currency_sym=data['currency_symbol']
         conversion_sym=data['conversion_symbol']
-	insertQuery=""
+        insertQuery=""
         json_object={}
 	if(alert_type == 'THRESHOLD_ALERT'):
 		price=data['price']
@@ -165,7 +165,7 @@ def registeration():
 		json_object['Success']=0
 		json_object['Message']="This email is already registered"
 		return jsonify(json_object),404
-
+"""
 @app.route("/compareGraphs",methods=['GET','POST'])
 def LineGraph():
     json_object={}
