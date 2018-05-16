@@ -164,21 +164,43 @@ def registeration():
                 json_object['Message']="This email is already registered"
                 return jsonify(json_object),404
 
-"""
+
 @app.route("/compareGraphs",methods=['GET','POST'])
 def LineGraph():
     json_object={}
+    curr_list=[]
     if 'duration' in request.args:
         duration=request.args['duration']
         if duration in ['day','month','year']:
-	    selectQuery="select path from public.filepath where duration='{}' and crypto_name='{}'".format(duration,'All')
-	    curr.execute(selectQuery)
-	    result=curr.fetchall()
-	     
-            json_object['Success']=1
-            json_object['message']="Successfully rendered graph"
-            json_object['data']=result[0][0]
-            return jsonify(json_object)
+		coins=['BTC','ETH','LTC','XRP','BTC']
+        	if duration == 'day':    
+            		for cryptoname in coins:
+				curr.execute("Refresh materialized view "+cryptoname+"_min;")
+	    			curr.execute("Refresh materialized view "+cryptoname+"_day;")
+	    			conn.commit();
+				selectQuery="select price_usd_day,last_updated_day from {}_{};".format(cryptoname,duration)
+                		curr.execute(selectQuery)
+                		result=curr.fetchmany(49)    
+				for r in result :
+                      			curr_list.append(r)
+		#at the time of graph creation consider 49 entries of each
+		else if duration == 'month':    
+            		for cryptoname in coins:
+				curr.execute("Refresh materialized view "+cryptoname+"_min;")
+	    			curr.execute("Refresh materialized view "+cryptoname+"_month;")
+	    			conn.commit();
+				selectQuery="select price_usd_month,last_updated_month from {}_{};".format(cryptoname,duration)
+                		curr.execute(selectQuery)
+                		result=curr.fetchall()    
+				for r in result :
+                      			curr_list.append(r)
+		#at the time of graph creation consider total/5 of each
+			
+        	json_object['Success']=1
+        	json_object['message']="Successfully rendered graph"
+        	json_object['data']=curr_list
+		#print("compareGraphs",jsonify(json_object))
+        	return jsonify(json_object)
         else:
             json_object['Success']=0
             json_object['message']="Invalid parameter value"
@@ -193,17 +215,35 @@ def LineGraph():
 @app.route("/coinGraph",methods=['GET','POST'])
 def IndividualGraph():
     json_object={}
+    curr_list=[]
     if 'cryptoname' and 'duration' in request.args:
         cryptoname=request.args['cryptoname']
         duration=request.args['duration']
-        
+        print(cryptoname,duration)
         if cryptoname in ['BTC','ETH','XRP','LTC','BCH'] and duration in ['day','month','year']:
-            selectQuery="select path from public.filepath where duration='{}' and crypto_name='{}'".format(duration,cryptoname)
-	    curr.execute(selectQuery)
-	    result=curr.fetchall()
+	   
+	    curr.execute("Refresh materialized view "+cryptoname+"_min;")
+	    curr.execute("Refresh materialized view "+cryptoname+"_day;")
+	    curr.execute("Refresh materialized view "+cryptoname+"_month;")
+	    conn.commit();
+	   
+	    if duration == 'day':
+            	curr.execute("select price_usd_day,last_updated_day from "+cryptoname+"_"+duration+" ;")
+            	result=curr.fetchmany(49)
+            	for r in result :
+                      	curr_list.append(r)
+	    if duration == 'month':
+		
+            	curr.execute("select price_usd_month,last_updated_month from "+cryptoname+"_"+duration+" ;")
+            	result=curr.fetchall()
+		#print "coinGraph/month",result
+            	for r in result :
+                      	curr_list.append(r)
+
             json_object['Success']=1
             json_object['message']='Succesfully rendered chart'
-            json_object['data']=result[0][0]
+            json_object['data']=curr_list
+	    #print("coinGraph",curr_list)
             return jsonify(json_object)
         else:
             json_object['Success']=0
@@ -218,8 +258,8 @@ def IndividualGraph():
     
         #return "Invalid Paramters"
               	
-"""			
+			
 if (__name__ == "__main__"):
-	app.run(debug=True,use_reloader=False)
+	app.run(debug=True,port=5052,use_reloader=False)
 	conn.close()
 
