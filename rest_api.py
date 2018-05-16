@@ -211,7 +211,7 @@ def LineGraph():
         json_object['message']="Missing Parameters"
         json_object['data']='null'
         return jsonify(json_object)
-
+#marerialized view changed for all 
 @app.route("/coinGraph",methods=['GET','POST'])
 def IndividualGraph():
     json_object={}
