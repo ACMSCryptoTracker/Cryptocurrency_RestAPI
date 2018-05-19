@@ -169,8 +169,9 @@ def registeration():
 def LineGraph():
     json_object={}
     curr_list=[]
-    if 'duration' in request.args:
-        duration=request.args['duration']
+    data=json.loads(request.data)
+    if 'duration' in data.keys():
+        duration=data['duration']
         if duration in ['day','month','year']:
 		coins=['BTC','ETH','LTC','XRP','BTC']
         	if duration == 'day':    
@@ -184,7 +185,7 @@ def LineGraph():
 				for r in result :
                       			curr_list.append(r)
 		#at the time of graph creation consider 49 entries of each
-		else if duration == 'month':    
+                elif duration == 'month':    
             		for cryptoname in coins:
 				curr.execute("Refresh materialized view "+cryptoname+"_min;")
 	    			curr.execute("Refresh materialized view "+cryptoname+"_month;")
@@ -216,9 +217,10 @@ def LineGraph():
 def IndividualGraph():
     json_object={}
     curr_list=[]
-    if 'cryptoname' and 'duration' in request.args:
-        cryptoname=request.args['cryptoname']
-        duration=request.args['duration']
+    data=json.loads(request.data)
+    if 'cryptoname' and 'duration' in data.keys():
+        cryptoname=data['cryptoname']
+        duration=data['duration']
         print(cryptoname,duration)
         if cryptoname in ['BTC','ETH','XRP','LTC','BCH'] and duration in ['day','month','year']:
 	   
