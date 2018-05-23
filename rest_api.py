@@ -12,6 +12,7 @@ import configparser
 from threading import Thread
 import urllib3
 import time
+from datetime import datetime
 urllib3.disable_warnings()
 
 #Read Config File 
@@ -170,7 +171,7 @@ def LineGraph():
     json_object={}
     curr_list=[]
     data=json.loads(request.data)
-    if 'duration' in data.keys():
+    if 'duration' in request.args:
         duration=data['duration']
         if duration in ['day','month','year']:
 		coins=['BTC','ETH','LTC','XRP','BTC']
@@ -183,8 +184,8 @@ def LineGraph():
                 		curr.execute(selectQuery)
                 		result=curr.fetchmany(49)    
 				for r in result :
-                      			curr_list.append(r)
-		#at the time of graph creation consider 49 entries of each
+                                     curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
+                #at the time of graph creation consider 49 entries of each
                 elif duration == 'month':    
             		for cryptoname in coins:
 				curr.execute("Refresh materialized view "+cryptoname+"_min;")
@@ -194,7 +195,8 @@ def LineGraph():
                 		curr.execute(selectQuery)
                 		result=curr.fetchall()    
 				for r in result :
-                      			curr_list.append(r)
+					
+                      			curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
 		#at the time of graph creation consider total/5 of each
 			
         	json_object['Success']=1
@@ -220,10 +222,9 @@ def IndividualGraph():
     data=json.loads(request.data)
     if 'cryptoname' and 'duration' in data.keys():
         cryptoname=data['cryptoname']
-        duration=data['duration']
+        duration=data['duration'] 
         print(cryptoname,duration)
         if cryptoname in ['BTC','ETH','XRP','LTC','BCH'] and duration in ['day','month','year']:
-	   
 	    curr.execute("Refresh materialized view "+cryptoname+"_min;")
 	    curr.execute("Refresh materialized view "+cryptoname+"_day;")
 	    curr.execute("Refresh materialized view "+cryptoname+"_month;")
@@ -232,15 +233,15 @@ def IndividualGraph():
 	    if duration == 'day':
             	curr.execute("select price_usd_day,last_updated_day from "+cryptoname+"_"+duration+" ;")
             	result=curr.fetchmany(49)
-            	for r in result :
-                      	curr_list.append(r)
+            	for r in result :		
+                      	curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
 	    if duration == 'month':
 		
             	curr.execute("select price_usd_month,last_updated_month from "+cryptoname+"_"+duration+" ;")
             	result=curr.fetchall()
 		#print "coinGraph/month",result
-            	for r in result :
-                      	curr_list.append(r)
+            	for r in result :		
+                      	curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
 
             json_object['Success']=1
             json_object['message']='Succesfully rendered chart'
