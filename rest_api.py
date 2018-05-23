@@ -182,8 +182,8 @@ def LineGraph():
                                 conn.commit();
                                 selectQuery="select price_usd_day,last_updated_day from {}_{};".format(cryptoname,duration)
                                 curr.execute(selectQuery)
-                                result=curr.fetchmany(49)    
-				for r in result :
+                                result=curr.fetchmany(49)
+                                for r in result :
                                      curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
                 #at the time of graph creation consider 49 entries of each
                 elif duration == 'month':
