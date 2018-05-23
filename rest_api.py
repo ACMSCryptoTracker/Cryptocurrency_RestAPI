@@ -240,7 +240,10 @@ def IndividualGraph():
                 curr.execute("select price_usd_month,last_updated_month from "+cryptoname+"_"+duration+" ;")
                 result=curr.fetchall()
                 for r in result :
-                      curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
+                      item['value']=r[0]
+                      item['date']=datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')
+                      curr_list.append(item)
+                      #curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
             
             json_object['Success']=1
             json_object['message']='Succesfully rendered chart'
