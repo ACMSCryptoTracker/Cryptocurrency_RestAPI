@@ -174,36 +174,34 @@ def LineGraph():
     if 'duration' in request.args:
         duration=data['duration']
         if duration in ['day','month','year']:
-		coins=['BTC','ETH','LTC','XRP','BTC']
-        	if duration == 'day':    
-            		for cryptoname in coins:
-				curr.execute("Refresh materialized view "+cryptoname+"_min;")
-	    			curr.execute("Refresh materialized view "+cryptoname+"_day;")
-	    			conn.commit();
+                coins=['BTC','ETH','LTC','XRP','BTC']
+                if duration == 'day':
+                      for cryptoname in coins:
+                                curr.execute("Refresh materialized view "+cryptoname+"_min;")
+                                curr.execute("Refresh materialized view "+cryptoname+"_day;")
+                                conn.commit();
 				selectQuery="select price_usd_day,last_updated_day from {}_{};".format(cryptoname,duration)
                 		curr.execute(selectQuery)
                 		result=curr.fetchmany(49)    
 				for r in result :
                                      curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
                 #at the time of graph creation consider 49 entries of each
-                elif duration == 'month':    
-            		for cryptoname in coins:
-				curr.execute("Refresh materialized view "+cryptoname+"_min;")
-	    			curr.execute("Refresh materialized view "+cryptoname+"_month;")
-	    			conn.commit();
-				selectQuery="select price_usd_month,last_updated_month from {}_{};".format(cryptoname,duration)
-                		curr.execute(selectQuery)
-                		result=curr.fetchall()    
-				for r in result :
-					
-                      			curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
+                elif duration == 'month':
+                     for cryptoname in coins:
+                                curr.execute("Refresh materialized view "+cryptoname+"_min;")
+                                curr.execute("Refresh materialized view "+cryptoname+"_month;")
+                                conn.commit();
+                                selectQuery="select price_usd_month,last_updated_month from {}_{};".format(cryptoname,duration)
+                                curr.execute(selectQuery)
+                                result=curr.fetchall()
+                                for r in result :
+                                   curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
 		#at the time of graph creation consider total/5 of each
-			
-        	json_object['Success']=1
-        	json_object['message']="Successfully rendered graph"
-        	json_object['data']=curr_list
-		#print("compareGraphs",jsonify(json_object))
-        	return jsonify(json_object)
+                json_object['Success']=1
+                json_object['message']="Successfully rendered graph"
+                json_object['data']=curr_list
+                #print("compareGraphs",jsonify(json_object))
+                return jsonify(json_object)
         else:
             json_object['Success']=0
             json_object['message']="Invalid parameter value"
@@ -214,7 +212,7 @@ def LineGraph():
         json_object['message']="Missing Parameters"
         json_object['data']='null'
         return jsonify(json_object)
-#marerialized view changed for all 
+#marerialized view changed for all
 @app.route("/coinGraph",methods=['GET','POST'])
 def IndividualGraph():
     json_object={}
