@@ -171,7 +171,7 @@ def LineGraph():
     json_object={}
     curr_list=[]
     data=json.loads(request.data)
-    if 'duration' in request.args:
+    if 'duration' in data.keys():
         duration=data['duration']
         if duration in ['day','month','year']:
                 coins=['BTC','ETH','LTC','XRP','BTC']
@@ -217,6 +217,7 @@ def LineGraph():
 def IndividualGraph():
     json_object={}
     curr_list=[]
+    item={}
     data=json.loads(request.data)
     if 'cryptoname' and 'duration' in data.keys():
         cryptoname=data['cryptoname']
@@ -230,8 +231,11 @@ def IndividualGraph():
             if duration == 'day':
             	curr.execute("select price_usd_day,last_updated_day from "+cryptoname+"_"+duration+" ;")
             	result=curr.fetchmany(49)
-            	for r in result :		
-                      	curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
+            	for r in result :
+                        item['value']=r[0]
+                        item['date']=datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')
+                        curr_list.append(item)
+                      	#curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
             if duration == 'month':
                 curr.execute("select price_usd_month,last_updated_month from "+cryptoname+"_"+duration+" ;")
                 result=curr.fetchall()
