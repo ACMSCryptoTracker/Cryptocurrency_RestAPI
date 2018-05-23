@@ -180,9 +180,9 @@ def LineGraph():
                                 curr.execute("Refresh materialized view "+cryptoname+"_min;")
                                 curr.execute("Refresh materialized view "+cryptoname+"_day;")
                                 conn.commit();
-				selectQuery="select price_usd_day,last_updated_day from {}_{};".format(cryptoname,duration)
-                		curr.execute(selectQuery)
-                		result=curr.fetchmany(49)    
+                                selectQuery="select price_usd_day,last_updated_day from {}_{};".format(cryptoname,duration)
+                                curr.execute(selectQuery)
+                                result=curr.fetchmany(49)    
 				for r in result :
                                      curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
                 #at the time of graph creation consider 49 entries of each
@@ -220,15 +220,14 @@ def IndividualGraph():
     data=json.loads(request.data)
     if 'cryptoname' and 'duration' in data.keys():
         cryptoname=data['cryptoname']
-        duration=data['duration'] 
+        duration=data['duration']
         print(cryptoname,duration)
         if cryptoname in ['BTC','ETH','XRP','LTC','BCH'] and duration in ['day','month','year']:
-	    curr.execute("Refresh materialized view "+cryptoname+"_min;")
-	    curr.execute("Refresh materialized view "+cryptoname+"_day;")
-	    curr.execute("Refresh materialized view "+cryptoname+"_month;")
-	    conn.commit();
-	   
-	    if duration == 'day':
+            curr.execute("Refresh materialized view "+cryptoname+"_min;")
+            curr.execute("Refresh materialized view "+cryptoname+"_day;")
+            curr.execute("Refresh materialized view "+cryptoname+"_month;")
+            conn.commit();
+            if duration == 'day':
             	curr.execute("select price_usd_day,last_updated_day from "+cryptoname+"_"+duration+" ;")
             	result=curr.fetchmany(49)
             	for r in result :		
