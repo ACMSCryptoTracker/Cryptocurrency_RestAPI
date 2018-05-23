@@ -232,18 +232,16 @@ def IndividualGraph():
             	result=curr.fetchmany(49)
             	for r in result :		
                       	curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')]);
-	    if duration == 'month':
-		
-            	curr.execute("select price_usd_month,last_updated_month from "+cryptoname+"_"+duration+" ;")
-            	result=curr.fetchall()
-		#print "coinGraph/month",result
-            	for r in result :		
-                      	curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
-
+            if duration == 'month':
+                curr.execute("select price_usd_month,last_updated_month from "+cryptoname+"_"+duration+" ;")
+                result=curr.fetchall()
+                for r in result :
+                      curr_list.append([r[0],datetime.fromtimestamp(r[1]).strftime('%Y-%m-%d')]);
+            
             json_object['Success']=1
             json_object['message']='Succesfully rendered chart'
             json_object['data']=curr_list
-	    #print("coinGraph",curr_list)
+            #print("coinGraph",curr_list)
             return jsonify(json_object)
         else:
             json_object['Success']=0
@@ -255,11 +253,8 @@ def IndividualGraph():
         json_object['message']="Missing Paramters"
         json_object['data']='null'
         return jsonify(json_object)
-    
-        #return "Invalid Paramters"
-              	
 			
 if (__name__ == "__main__"):
-	app.run(debug=True,port=5052,use_reloader=False)
-	conn.close()
+        app.run(debug=True,port=5052,use_reloader=False)
+        conn.close()
 
