@@ -144,7 +144,7 @@ def login():
                 else:
                         json_object['Success']=0
                         json_object['message']="Incorrect Password"
-                        return jsonify(json_object),404
+                        return jsonify(json_object)
 @app.route('/registeration',methods=['POST','GET'])
 def registeration():
         data=json.loads(request.data)
@@ -163,7 +163,7 @@ def registeration():
         else:
                 json_object['Success']=0
                 json_object['Message']="This email is already registered"
-                return jsonify(json_object),404
+                return jsonify(json_object)
 
 
 @app.route("/compareGraphs",methods=['GET','POST'])
@@ -231,6 +231,7 @@ def IndividualGraph():
             if duration == 'day':
             	curr.execute("select price_usd_day,last_updated_day from "+cryptoname+"_"+duration+" ;")
             	result=curr.fetchmany(49)
+                print(result)
             	for r in result :
                         item['value']=r[0]
                         item['date']=datetime.fromtimestamp(r[1]).strftime('%H:%M:%S')
