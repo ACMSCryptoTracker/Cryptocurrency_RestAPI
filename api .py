@@ -88,7 +88,7 @@ def setAlert():
 	json_object['Success']=1
 	json_object['Message']="Successfully insert Data"
 	return jsonify(json_object),200
-		
+	#just trying new branch in git , nothing new 	
 @app.route('/login',methods=['POST','GET'])
 def login():
 	email=request.args.get('email')
